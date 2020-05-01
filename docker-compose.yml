@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      labels:
+        qe.test.containers: "true"
+    ports:
+      - "5000:5000"
+    links:
+      - redis
+    # network_mode: "host"
+  redis:
+    image: "redis:alpine"
+    labels:
+      qe.test.containers: "true"
+    
