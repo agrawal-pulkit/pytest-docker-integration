@@ -10,9 +10,39 @@ services:
       - "5000:5000"
     links:
       - redis
+      - mysql
+    networks: 
+      - pytest
     # network_mode: "host"
   redis:
     image: "redis:alpine"
     labels:
       qe.test.containers: "true"
-    
+    networks: 
+      - pytest
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ipa
+      MYSQL_USER: ipa
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    labels:
+      qe.test.containers: "true"
+    networks: 
+      - pytest
+# Names our volume
+volumes:
+  my-db:
+  
+networks: 
+  pytest:
+
+
